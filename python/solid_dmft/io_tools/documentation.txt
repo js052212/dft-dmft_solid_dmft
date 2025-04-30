@@ -478,6 +478,8 @@ mpi_env : string, default = 'default'
         * 'openmpi'
         * 'openmpi-intra'
         * 'mpich'
+mpi_exe : string, default = 'mpirun'
+        command for the MPI executable
 n_cores : int, None
         number of cores for the DFT code (VASP). Mandatory for charge-self-consistent calculations
 n_iter : int, default = 4
