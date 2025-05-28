@@ -2,6 +2,7 @@
 
 .. automodule:: {{ fullname }}
     :members:
+    :private-members:
 
 {% block attributes %}
 {% if attributes %}
