@@ -23,6 +23,9 @@
 #
 ################################################################################
 # pyright: reportUnusedExpression=false
+'''
+abstract DMFT solver class for solid_dmft
+'''
 import numpy as np
 
 from triqs.gf import MeshImTime, MeshReTime, MeshReFreq, MeshLegendre, Gf, BlockGf
