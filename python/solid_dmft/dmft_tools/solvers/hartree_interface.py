@@ -162,8 +162,8 @@ class HartreeInterface(AbstractDMFTSolver):
         # get everything from solver
         self.G0_freq << self.triqs_solver.G0_iw
         self.G_freq_unsym << self.triqs_solver.G_iw
-        self.sum_k.symm_deg_gf(self.G_freq, ish=self.icrsh)
         self.G_freq << self.triqs_solver.G_iw
+        self.sum_k.symm_deg_gf(self.G_freq, ish=self.icrsh)
         for bl, gf in self.Sigma_freq:
             self.Sigma_freq[bl] << self.triqs_solver.Sigma_HF[bl]
             self.Sigma_Refreq[bl] << self.triqs_solver.Sigma_HF[bl]
