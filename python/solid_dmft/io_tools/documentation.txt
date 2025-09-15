@@ -231,6 +231,14 @@ crm_dlr_eps : float, default = None
         Set to dlr_eps if crm_dlr_eps = None.
 delta_interface : bool, default = False
         use delta interface in cthyb instead of input G0
+det_init_size : int, default = 100
+        The maximum size of the determinant matrix before a resize
+det_n_operations_before_check : int, default = 100
+        Max number of ops before the test of deviation of the det, M^-1 is performed.
+det_precision_warning : float, default = 1e-8
+        Threshold for determinant precision warnings
+det_precision_error : float, default = 1e-5
+        Threshold for determinant precision error
 diag_delta : bool, default = False
         approximate the hybridization function as diagonal when using the delta interface
 fit_max_moment : int, default = None

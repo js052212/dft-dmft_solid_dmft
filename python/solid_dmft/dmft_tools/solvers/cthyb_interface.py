@@ -68,6 +68,10 @@ class CTHYBInterface(AbstractDMFTSolver):
         # Separately stores all params that go into solve() call of solver
         self.triqs_solver_params = {}
         keys_to_pass = (
+            'det_init_size',
+            'det_n_operations_before_check',
+            'det_precision_warning',
+            'det_precision_error',
             'imag_threshold',
             'length_cycle',
             'max_time',

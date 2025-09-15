@@ -45,5 +45,10 @@ fit_max_moment = 4
 fit_min_w = 4
 fit_max_w = 10
 
+det_init_size = 80
+det_n_operations_before_check = 40
+det_precision_warning = 1e-9
+det_precision_error = 1e-6
+
 [advanced]
 dc_orb_shift = [-0.1, 0.2, 0.1]
