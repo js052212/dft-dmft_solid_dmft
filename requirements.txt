@@ -8,6 +8,7 @@ tomli
 # For documentation builds we additionaly require
 #sphinx
 #nbsphinx
+#sphinx-autorun
 #sphinx_rtd_theme
 #myst_parser
 #linkify-it-py
