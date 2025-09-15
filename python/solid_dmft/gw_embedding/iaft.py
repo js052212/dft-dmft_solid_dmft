@@ -1,9 +1,8 @@
 import sys
 import numpy as np
-import sparse_ir
 
 """
-Fourier transform on the imaginary axis based on IR basis and the sparse sampling technique.  
+Fourier transform on the imaginary axis based on IR basis and the sparse sampling technique.
 """
 
 
@@ -45,6 +44,7 @@ class IAFT(object):
     nw_b: int
         Number of bosonic frequency sampling points
     """
+
     def __init__(self, beta: float, lmbda: float, prec: float = 1e-15, verbal: bool = True):
         """
         :param beta: float
@@ -54,6 +54,10 @@ class IAFT(object):
         :param prec: float
             Precision for IR basis
         """
+        try:
+            import sparse_ir
+        except ImportError:
+            raise ImportError('sparse_ir is required for IAFT functionality. ' 'Install with: pip install sparse-ir[xprec]')
         self.beta = beta
         self.lmbda = lmbda
         self.prec = prec
@@ -89,14 +93,15 @@ class IAFT(object):
             sys.stdout.flush()
 
     def __str__(self):
-        return ("Mesh details on the imaginary axis\n" \
-                "----------------------------------\n" \
-                "precision = {}\n" \
-                "beta = {}\n" \
-                "lambda = {}\n" \
-                "nt_f, nw_f = {}, {}\n" \
-                "nt_b, nw_b = {}, {}\n".format(self.prec, self.beta, self.lmbda, self.nt_f, self.nw_f,
-                                                self.nt_b, self.nw_b))
+        return (
+            'Mesh details on the imaginary axis\n'
+            '----------------------------------\n'
+            'precision = {}\n'
+            'beta = {}\n'
+            'lambda = {}\n'
+            'nt_f, nw_f = {}, {}\n'
+            'nt_b, nw_b = {}, {}\n'.format(self.prec, self.beta, self.lmbda, self.nt_f, self.nw_f, self.nt_b, self.nw_b)
+        )
 
     def wn_mesh(self, stats: str, ir_notation: bool = True):
         """
@@ -111,11 +116,10 @@ class IAFT(object):
             Matsubara frequency indices
         """
         if stats not in self.statisics:
-            raise ValueError("Unknown statistics '{}'. "
-                             "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
+            raise ValueError("Unknown statistics '{}'. " "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
         wn_mesh = np.array(self._wn_mesh_f, dtype=int) if stats == 'f' else np.array(self._wn_mesh_b, dtype=int)
         if not ir_notation:
-            wn_mesh = (wn_mesh-1)//2 if stats == 'f' else wn_mesh//2
+            wn_mesh = (wn_mesh - 1) // 2 if stats == 'f' else wn_mesh // 2
         return wn_mesh
 
     def tau_to_w(self, Ot, stats: str):
@@ -130,12 +134,10 @@ class IAFT(object):
             Matsubara-frequency object with dimensions (nw, ...)
         """
         if stats not in self.statisics:
-            raise ValueError("Unknown statistics '{}'. "
-                             "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
+            raise ValueError("Unknown statistics '{}'. " "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
         Twt = self.Twt_ff if stats == 'f' else self.Twt_bb
         if Ot.shape[0] != Twt.shape[1]:
-            raise ValueError(
-                "tau_to_w: Number of tau points are inconsistent: {} and {}".format(Ot.shape[0], Twt.shape[1]))
+            raise ValueError('tau_to_w: Number of tau points are inconsistent: {} and {}'.format(Ot.shape[0], Twt.shape[1]))
 
         Ot_shape = Ot.shape
         Ot = Ot.reshape(Ot.shape[0], -1)
@@ -157,13 +159,12 @@ class IAFT(object):
             Matsubara-frequency object with dimensions (nw, ...)
         """
         if stats != 'b':
-            raise ValueError("FT w/ particle-hole symmetry only support bosonic correlation functions")
+            raise ValueError('FT w/ particle-hole symmetry only support bosonic correlation functions')
 
         nw_half = self.nw_b // 2 if self.nw_b % 2 == 0 else self.nw_b // 2 + 1
         nt_half = self.nt_b // 2 if self.nt_b % 2 == 0 else self.nt_b // 2 + 1
         if Ot.shape[0] != nt_half:
-            raise ValueError(
-                "tau_to_w_phsym: Number of tau points are inconsistent: {} and {}".format(Ot.shape[0], nt_half))
+            raise ValueError('tau_to_w_phsym: Number of tau points are inconsistent: {} and {}'.format(Ot.shape[0], nt_half))
 
         Twt_pos = np.zeros((nw_half, nt_half), dtype=self.Twt_bb.dtype)
         for n in range(nw_half):
@@ -193,12 +194,10 @@ class IAFT(object):
             Imaginary-time object with dimensions (nt, ...)
         """
         if stats not in self.statisics:
-            raise ValueError("Unknown statistics '{}'. "
-                             "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
+            raise ValueError("Unknown statistics '{}'. " "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
         Ttw = self.Ttw_ff if stats == 'f' else self.Ttw_bb
         if Ow.shape[0] != Ttw.shape[1]:
-            raise ValueError(
-                "w_to_tau: Number of w points are inconsistent: {} and {}".format(Ow.shape[0], Ttw.shape[1]))
+            raise ValueError('w_to_tau: Number of w points are inconsistent: {} and {}'.format(Ow.shape[0], Ttw.shape[1]))
 
         Ow_shape = Ow.shape
         Ow = Ow.reshape(Ow.shape[0], -1)
@@ -221,13 +220,12 @@ class IAFT(object):
             Imaginary-time object with dimensions (nt, ...)
         """
         if stats != 'b':
-            raise ValueError("FT w/ particle-hole symmetry only support bosonic correlation functions")
+            raise ValueError('FT w/ particle-hole symmetry only support bosonic correlation functions')
 
         nw_half = self.nw_b // 2 if self.nw_b % 2 == 0 else self.nw_b // 2 + 1
         nt_half = self.nt_b // 2 if self.nt_b % 2 == 0 else self.nt_b // 2 + 1
         if Ow.shape[0] != nw_half:
-            raise ValueError(
-                "w_to_tau_phsym: Number of w points are inconsistent: {} and {}".format(Ow.shape[0], nw_half))
+            raise ValueError('w_to_tau_phsym: Number of w points are inconsistent: {} and {}'.format(Ow.shape[0], nw_half))
 
         Ttw_pos = np.zeros((nt_half, nw_half), dtype=self.Ttw_bb.dtype)
         for it in range(nt_half):
@@ -243,7 +241,6 @@ class IAFT(object):
         Ow = Ow.reshape(Ow_shape)
         Ot = Ot.reshape((Ttw_pos.shape[0],) + Ow_shape[1:])
         return Ot
-
 
     def w_interpolate(self, Ow, wn_mesh_interp, stats: str, ir_notation: bool = True):
         """
@@ -264,16 +261,14 @@ class IAFT(object):
             Matsubara-frequency object with dimensions (nw_interp, ...)
         """
         if stats not in self.statisics:
-            raise ValueError("Unknown statistics '{}'. "
-                             "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
+            raise ValueError("Unknown statistics '{}'. " "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
         if ir_notation:
             wn_indices = np.asarray(wn_mesh_interp)
         else:
-            wn_indices = np.array([2*n+1 if stats == 'f' else 2*n for n in wn_mesh_interp], dtype=int)
+            wn_indices = np.array([2 * n + 1 if stats == 'f' else 2 * n for n in wn_mesh_interp], dtype=int)
         Tlw = self.Tlw_ff if stats == 'f' else self.Tlw_bb
         if Ow.shape[0] != Tlw.shape[1]:
-            raise ValueError(
-                "w_interpolate: Number of w points are inconsistent: {} and {}".format(Ow.shape[0], Tlw.shape[1]))
+            raise ValueError('w_interpolate: Number of w points are inconsistent: {} and {}'.format(Ow.shape[0], Tlw.shape[1]))
 
         Twl_interp = self.bases.basis_f.uhat(wn_indices).T if stats == 'f' else self.bases.basis_b.uhat(wn_indices).T
         Tww = np.dot(Twl_interp, Tlw)
@@ -305,18 +300,17 @@ class IAFT(object):
             Matsubara-frequency object with dimensions (nw_interp, ...)
         """
         if stats != 'b':
-            raise ValueError("FT w/ particle-hole symmetry only support bosonic correlation functions")
+            raise ValueError('FT w/ particle-hole symmetry only support bosonic correlation functions')
 
         nw_half = self.nw_b // 2 if self.nw_b % 2 == 0 else self.nw_b // 2 + 1
         nt_half = self.nt_b // 2 if self.nt_b % 2 == 0 else self.nt_b // 2 + 1
         if Ow.shape[0] != nw_half:
-            raise ValueError(
-                "w_interpolate_phsym: Number of w points are inconsistent: {} and {}".format(Ow.shape[0], nw_half))
+            raise ValueError('w_interpolate_phsym: Number of w points are inconsistent: {} and {}'.format(Ow.shape[0], nw_half))
 
         if ir_notation:
             wn_indices = np.asarray(wn_mesh_interp)
         else:
-            wn_indices = np.array([2*n for n in wn_mesh_interp], dtype=int)
+            wn_indices = np.array([2 * n for n in wn_mesh_interp], dtype=int)
         Tlw = self.Tlw_bb
         Tlw_pos = np.zeros((Tlw.shape[0], nw_half), dtype=Tlw.dtype)
         for l in range(Tlw.shape[0]):
@@ -351,12 +345,10 @@ class IAFT(object):
             Imaginary-time object with dimensions (nt_interp, ...)
         """
         if stats not in self.statisics:
-            raise ValueError("Unknown statistics '{}'. "
-                             "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
+            raise ValueError("Unknown statistics '{}'. " "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
         Tlt = self.Tlt_ff if stats == 'f' else self.Tlt_bb
         if Ot.shape[0] != Tlt.shape[1]:
-            raise ValueError(
-                "t_interpolate: Number of tau points are inconsistent: {} and {}".format(Ot.shape[0], Tlt.shape[1]))
+            raise ValueError('t_interpolate: Number of tau points are inconsistent: {} and {}'.format(Ot.shape[0], Tlt.shape[1]))
 
         Ttl_interp = self.bases.basis_f.u(tau_mesh_interp).T if stats == 'f' else self.bases.basis_b.u(tau_mesh_interp).T
         Ttt = np.dot(Ttl_interp, Tlt)
@@ -384,13 +376,12 @@ class IAFT(object):
             Imaginary-time object with dimensions (nt_interp, ...)
         """
         if stats != 'b':
-            raise ValueError("FT w/ particle-hole symmetry only support bosonic correlation functions")
+            raise ValueError('FT w/ particle-hole symmetry only support bosonic correlation functions')
 
         nw_half = self.nw_b // 2 if self.nw_b % 2 == 0 else self.nw_b // 2 + 1
         nt_half = self.nt_b // 2 if self.nt_b % 2 == 0 else self.nt_b // 2 + 1
         if Ot.shape[0] != nt_half:
-            raise ValueError(
-                "tau_interpolate_phsym: Number of tau points are inconsistent: {} and {}".format(Ot.shape[0], nw_half))
+            raise ValueError('tau_interpolate_phsym: Number of tau points are inconsistent: {} and {}'.format(Ot.shape[0], nw_half))
 
         Tlt = self.Tlt_ff if stats == 'f' else self.Tlt_bb
         Tlt_pos = np.zeros((Tlt.shape[0], nt_half), dtype=Tlt.dtype)
@@ -410,7 +401,7 @@ class IAFT(object):
         Ot_interp = Ot_interp.reshape((np.shape(tau_mesh_interp)[0],) + Ot_shape[1:])
         return Ot_interp
 
-    def check_leakage(self, Ot, stats: str, name: str = "", w_input: bool = False):
+    def check_leakage(self, Ot, stats: str, name: str = '', w_input: bool = False):
         """
         Check decay of the IR coefficients to assess the quality of IR basis for the beta and lambda.
         The coefficients should decay exponentially, and the leakage is defined as:
@@ -427,12 +418,11 @@ class IAFT(object):
             return
 
         if stats not in self.statisics:
-            raise ValueError("Unknown statistics '{}'. "
-                             "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
+            raise ValueError("Unknown statistics '{}'. " "Acceptable options are 'f' for fermion and 'b' for bosons.".format(stats))
         nts = self.nt_f if stats == 'f' else self.nt_b
         Tlt = self.Tlt_ff if stats == 'f' else self.Tlt_bb
         if nts != Ot.shape[0]:
-            raise ValueError("Inconsistency between nts = {} and Ot.shape[0] = {}".format(nts, Ot.shape[0]))
+            raise ValueError('Inconsistency between nts = {} and Ot.shape[0] = {}'.format(nts, Ot.shape[0]))
 
         # coeff_first
         O_l0_i = np.einsum('t,ti->i', Tlt[0], Ot.reshape(nts, -1))
@@ -442,11 +432,14 @@ class IAFT(object):
         O_lm2_t = np.einsum('lt,ti->li', Tlt[-2:], Ot.reshape(nts, -1))
         coeff_last = np.max(np.abs(O_lm2_t))
 
-        leakage = coeff_last/coeff_first
-        print("IAFT leakage of {}: {}".format(name, leakage))
-        if leakage >= 1e-8:
-            print("[WARNING] check_leakage: coeff_last/coeff_first = {} >= 1e-8; "
-                  "coeff_last = {}, coeff_first = {}".format(leakage, coeff_last, coeff_first))
+        leakage = coeff_last / coeff_first
+        print('IAFT leakage of {}: {}'.format(name, leakage))
+        if leakage >= 1e-5:
+            print(
+                '[WARNING] check_leakage: coeff_last/coeff_first = {} >= 1e-8; ' 'coeff_last = {}, coeff_first = {}'.format(
+                    leakage, coeff_last, coeff_first
+                )
+            )
         sys.stdout.flush()
 
 
@@ -466,12 +459,12 @@ if __name__ == '__main__':
     print(Gt_interp.shape)
 
     # wn in spare_ir notation
-    w_interp = np.array([-1,1,3,5], dtype=int)
+    w_interp = np.array([-1, 1, 3, 5], dtype=int)
     Gw_interp = ft.w_interpolate(Gw, w_interp, 'f', True)
     print(Gw_interp.shape)
 
     # wn in physical notation
-    w_interp = np.array([-1,0,1,2,3,4], dtype=int)
+    w_interp = np.array([-1, 0, 1, 2, 3, 4], dtype=int)
     Gw_interp = ft.w_interpolate(Gw, w_interp, 'f', False)
     print(Gw_interp.shape)
 

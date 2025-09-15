@@ -247,9 +247,11 @@ def calc_Sigma_DC_gw(Wloc_dlr, Gloc_dlr, Vloc, verbose=False):
 
     Wloc_dlr_t = make_gf_dlr_imtime(Wloc_dlr)
 
+    i_tau = 0
     for tau in Gloc_dlr_t.mesh:
         # Wloc_dlr is bosonic and the mesh has a different hash, use call to get value at tau point
-        Sig_dlr_t[tau] = -1 * np.einsum('ijkl, jk -> li', Wloc_dlr_t[tau], Gloc_dlr_t[tau])
+        Sig_dlr_t[tau] = -1 * np.einsum('ijkl, jk -> li', Wloc_dlr_t.data[i_tau,:,:], Gloc_dlr_t[tau])
+        i_tau += 1
 
     Sig_DC_dlr = make_gf_dlr(Sig_dlr_t)
 
@@ -372,8 +374,10 @@ def calc_W_from_Gloc(Gloc_dlr, U):
     )
 
     PI_dlr_t = Gf(mesh=mesh_bos, target_shape=[nb] * 4)
+    i_tau = 0
     for tau in Gloc_dlr_t.mesh:
-        PI_dlr_t[tau] = -2 * np.einsum('bl, ka -> abkl', Gloc_dlr_t[tau], Gloc_dlr(Gloc_dlr_t.mesh.beta - tau))
+        PI_dlr_t.data[i_tau,:,:] = -2 * np.einsum('bl, ka -> abkl', Gloc_dlr_t[tau], Gloc_dlr(Gloc_dlr_t.mesh.beta - tau))
+        i_tau += 1
 
     PI_dlr = make_gf_dlr(PI_dlr_t)
     PI_dlr_w = make_gf_dlr_imfreq(PI_dlr)
