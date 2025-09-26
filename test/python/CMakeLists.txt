@@ -42,6 +42,7 @@ set (integration_tests
      svo_cthyb_basic_crm
      svo_cthyb_basic_tf
      svo_ctseg_crm
+     lco_ctseg_tf
      lco_ftps
      nio_cthyb_hartree
      )
