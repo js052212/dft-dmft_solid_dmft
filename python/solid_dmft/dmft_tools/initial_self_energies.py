@@ -520,7 +520,6 @@ def determine_dc_and_initial_sigma(general_params, gw_params, advanced_params, s
                                                            mesh=sum_k.mesh)
                            for iineq in range(sum_k.n_inequiv_shells)]
             for icrsh in range(sum_k.n_inequiv_shells):
-                n_orb = sum_k.corr_shells[icrsh]['dim']
                 dc_pot = sum_k.block_structure.convert_matrix(sum_k.dc_imp[sum_k.inequiv_to_corr[icrsh]],
                                                                ish_from=icrsh,
                                                                space_from='sumk', space_to='solver')
@@ -535,9 +534,9 @@ def determine_dc_and_initial_sigma(general_params, gw_params, advanced_params, s
                     # if magmom positive the up channel will be favored
                     for spin_channel in sum_k.gf_struct_solver[icrsh].keys():
                         if 'up' in spin_channel:
-                            start_sigma[icrsh][spin_channel] <<  dc_pot[spin_channel] - fac*np.eye(n_orb)
+                            start_sigma[icrsh][spin_channel] <<  dc_pot[spin_channel] - fac*np.eye(dc_pot[spin_channel].shape[0])
                         else:
-                            start_sigma[icrsh][spin_channel] << dc_pot[spin_channel] + fac*np.eye(n_orb)
+                            start_sigma[icrsh][spin_channel] << dc_pot[spin_channel] + fac*np.eye(dc_pot[spin_channel].shape[0])
 
                 else:
                     for spin_channel in sum_k.gf_struct_solver[icrsh].keys():
@@ -548,7 +547,6 @@ def determine_dc_and_initial_sigma(general_params, gw_params, advanced_params, s
             start_sigma = [sum_k.block_structure.create_gf(ish=iineq, gf_function=Gf, space='solver', mesh=sum_k.mesh)
                                 for iineq in range(sum_k.n_inequiv_shells)]
             for icrsh in range(sum_k.n_inequiv_shells):
-                n_orb = sum_k.corr_shells[icrsh]['dim']
                 if (general_params['magnetic'] and general_params['magmom'] and sum_k.SO == 0):
                     mpi.report(f'\n*** Adding magnetic bias to initial sigma for impurity {icrsh} ***')
                     # if we are doing a magnetic calculation and initial magnetic moments
@@ -558,9 +556,9 @@ def determine_dc_and_initial_sigma(general_params, gw_params, advanced_params, s
                     # if magmom positive the up channel will be favored
                     for spin_channel in sum_k.gf_struct_solver[icrsh].keys():
                         if 'up' in spin_channel:
-                            start_sigma[icrsh][spin_channel] << -fac*np.eye(n_orb)
+                            start_sigma[icrsh][spin_channel] << -fac*np.eye(start_sigma[icrsh][spin_channel].target_shape[0])
                         else:
-                            start_sigma[icrsh][spin_channel] << fac*np.eye(n_orb)
+                            start_sigma[icrsh][spin_channel] << fac*np.eye(start_sigma[icrsh][spin_channel].target_shape[0])
         else:
             start_sigma = [sum_k.block_structure.create_gf(ish=iineq, gf_function=Gf, space='solver', mesh=sum_k.mesh)
                            for iineq in range(sum_k.n_inequiv_shells)]
