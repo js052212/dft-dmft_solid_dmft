@@ -56,7 +56,7 @@ def determine(general_params, archive, n_inequiv_shells):
                         # determine if we need to switch up and down channel
                         switch = np.isclose(general_params['magmom'][icrsh], -general_params['magmom'][source])
 
-                        afm_mapping[icrsh] = [True, source, switch]
+                        afm_mapping[icrsh] = [True, int(source), bool(switch)]
                     else:
                         afm_mapping[icrsh] = [False, icrsh, False]
 
@@ -97,6 +97,11 @@ def apply(general_params, icrsh, gf_struct_solver, solvers):
         # copy orbital occupations dict with deep copy of arrays
         solvers[icrsh].orbital_occupations = {key: occ.copy() for key, occ in solvers[imp_source].orbital_occupations.items()}
 
+    # and the same for the perturbation order if measured
+    if solvers[icrsh].solver_params.get('measure_pert_order'):
+        solvers[icrsh].perturbation_order = {key: hist for key, hist in solvers[imp_source].perturbation_order.items()}
+        solvers[icrsh].perturbation_order_total = solvers[imp_source].perturbation_order_total
+
     if invert_spin:
         for spin_channel in gf_struct_solver.keys():
             if 'up' in spin_channel:
@@ -112,7 +117,6 @@ def apply(general_params, icrsh, gf_struct_solver, solvers):
 
             if solvers[icrsh].solver_params.get('measure_pert_order'):
                 solvers[icrsh].perturbation_order[spin_channel] = solvers[imp_source].perturbation_order[target_channel]
-                solvers[icrsh].perturbation_order_total = solvers[imp_source].perturbation_order_total
 
             # we also need to swap the orbital occupations, but we skip moments since the whole self-energy is copied anyway
             if solvers[icrsh].solver_params.get('measure_density_matrix'):
@@ -124,10 +128,6 @@ def apply(general_params, icrsh, gf_struct_solver, solvers):
         solvers[icrsh].G_freq_unsym << solvers[imp_source].G_freq_unsym
         solvers[icrsh].G0_freq << solvers[imp_source].G0_freq
         solvers[icrsh].G_time << solvers[imp_source].G_time
-
-        if solvers[icrsh].solver_params.get('measure_pert_order'):
-            solvers[icrsh].perturbation_order = solvers[imp_source].perturbation_order
-            solvers[icrsh].perturbation_order_total = solvers[imp_source].perturbation_order_total
 
     if solvers[icrsh].solver_params.get('measure_chi'):
         solvers[icrsh].O_time = solvers[imp_source].O_time
