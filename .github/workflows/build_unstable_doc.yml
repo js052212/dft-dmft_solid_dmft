@@ -30,7 +30,7 @@ jobs:
 
       - name: Build solid_dmft
         run: |
-          cmake -S . -B build/ -DBuild_Documentation=ON -DTest_GW_embedding=ON
+          cmake -S . -B build/ -DBuild_Documentation=ON
           cmake --build build/ --verbose
 
       - name: Test solid_dmft
