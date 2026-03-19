@@ -60,10 +60,13 @@ class HartreeInterface(AbstractDMFTSolver):
         # Always initialize the solver with dc_U and dc_J equal to U and J and let the _interface_hartree_dc function
         # take care of changing the parameters
         gf_struct = self.sum_k.gf_struct_solver_list[self.icrsh]
+
         self.triqs_solver = hartree_solver(
             beta=self.general_params['beta'],
             gf_struct=gf_struct,
             n_iw=self.general_params['n_iw'],
+            #eps=self.solver_params.get('eps_dlr', 1e-13),  # these will need to be added for the new DLR interface of the Hartree solver unstable branch 
+            #w_max = self.solver_params.get("w_max", 30),
             force_real=self.solver_params['force_real'],
             symmetries=[self._make_spin_equal],
             dc_U=self.general_params['U'][self.icrsh],
