@@ -36,10 +36,11 @@ import numpy as np
 from h5 import HDFArchive
 import triqs.utility.mpi as mpi
 
-from triqs_dft_tools.converters.wannier90 import Wannier90Converter
-from triqs_dft_tools.converters.vasp import VaspConverter
-from triqs_dft_tools.converters.plovasp.vaspio import VaspData
-import triqs_dft_tools.converters.plovasp.converter as plo_converter
+from triqs_dftkit.wannier90 import Converter as Wannier90Converter
+from triqs_dftkit.vasp import Converter as VaspConverter
+from triqs_dftkit.vasp.plovasp.vaspio import VaspData
+import triqs_dftkit.vasp.plovasp.converter as plo_converter
+
 
 from solid_dmft.dmft_cycle import dmft_cycle
 from solid_dmft.dft_managers import vasp_manager as vasp
