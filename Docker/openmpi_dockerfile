@@ -1,5 +1,5 @@
 FROM --platform=linux/amd64 ubuntu:24.04 AS base
-ARG LLVM=19
+ARG LLVM=20
 
 # This platform includes dependencies for building docs
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -167,6 +167,15 @@ ENV CPATH=/triqs/include:/usr/include/mkl:${CPATH} \
     CTEST_PARALLEL_LEVEL=1 \
     BLA_VENDOR=Intel10_64_dyn \
     TRIQS_ROOT=/triqs
+
+RUN cd /source && git clone -b unstable --depth 1 https://github.com/flatironinstitute/clair.git clair.src \
+    && mkdir -p clair.build && cd clair.build \
+    && CXXFLAGS="" cmake ../clair.src -DCMAKE_INSTALL_PREFIX=/triqs \
+         -DCMAKE_C_COMPILER=$CC \
+         -DCMAKE_CXX_COMPILER=$CXX \
+         -DCMAKE_CXX_FLAGS= \
+         -DBuild_Tests=OFF \
+    && make -j$NCORES && make install
 
 RUN cd /source && git clone -b unstable --depth 1 https://github.com/TRIQS/triqs triqs.src \
     && mkdir -p triqs.build && cd triqs.build \

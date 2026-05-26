@@ -187,7 +187,6 @@ class test_observables(unittest.TestCase):
 
         observables = add_dmft_observables(observables, general_params, solver_params, map_imp_solver, solver_type_per_imp, None, it, solvers, h_int,
                                            previous_mu, sum_k, density_mat, shell_multiplicity, E_bandcorr)
-        print(observables['orb_Z'])
         expected_observables = {'iteration': [1], 'mu': [1.56], 'E_tot': [10.43], 'E_bandcorr': [10.43],
                                 'E_int': [[]], 'E_corr_en': [0.0], 'E_dft': [0.0], 'E_DC': [[0.0]],
                                 'orb_gb2': [{'up': [[-0.0250]], 'down': [[-0.0498]]}], 'imp_gb2': [{'up': [-0.0250], 'down': [-0.0498]}],
