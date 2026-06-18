@@ -23,3 +23,6 @@ LOCPROJ = 5 6 7 8 : d : Pr
 
 LWAVE = .FALSE.
 LCHARG = .FALSE.
+
+! sync vaspout.h5 so solid_dmft can read it while VASP holds it open (CSC)
+LSYNCH5 = .TRUE.

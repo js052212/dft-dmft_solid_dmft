@@ -35,4 +35,6 @@ end projections
 ```
 Warning: simply using `Fe:dxy,dyz,dz2,dxz,dx2-y2` does not work, VASP/W90 brings the d orbitals back to W90 standard order.
 
+Alternatively, you can keep the natural W90 order (z^2, xz, yz, x^2-y^2, xy) and instead tell solid_dmft to build the interaction U matrix in that same basis by setting `h_int_basis = "wannier90"` (see its documentation; `"qe"` is equivalent). solid_dmft then computes the cubic U matrix in the W90 convention, so the orbital order matches and no reordering of the projections block is needed.
+
 The 45-degree rotation for the sqrt2 x sqrt2 x 2 cell can be ignored because the interaction Hamiltonian is invariant under swapping x^2-y^2 and xy.

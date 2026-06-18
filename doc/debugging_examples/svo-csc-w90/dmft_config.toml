@@ -1,0 +1,50 @@
+[general]
+seedname = "wannier90"
+csc = true
+prec_mu = 1e-4
+n_iw = 501
+n_tau = 10001
+
+h_int_type = "kanamori_den_den"
+h_int_basis = "vasp"
+U = 4.5
+J = 0.65
+
+beta = 10
+
+n_iter_dmft_first = 4
+n_iter_dmft_per = 2
+n_iter_dmft = 12
+
+dc_type = 1
+dc = true
+dc_dmft = false
+
+h5_save_freq = 1
+
+[solver]
+type = "ctseg"
+length_cycle = 50
+n_warmup_cycles = 1e+4
+n_cycles_tot = 1e+7
+measure_state_hist = true
+measure_pert_order = true
+perform_tail_fit = true
+fit_max_moment = 4
+fit_min_w = 10
+fit_max_w = 14
+
+[advanced]
+dc_fixed_occ = 1.0
+
+
+[dft]
+dft_code = "vasp"
+projector_type = "w90"
+w90_exec = "wannier90.x"
+w90_tolerance = 1e-6
+n_iter = 3
+n_cores = 8
+mpi_env = "default"
+mpi_exe = "mpirun"
+dft_exec = "vasp_std"

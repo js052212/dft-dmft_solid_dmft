@@ -35,3 +35,6 @@ LOCPROJ = 2 : d : Pr
 !! write WAVECAR, CHGCAR
 LWAVE = .FALSE.
 LCHARG = .FALSE.
+
+! sync vaspout.h5 so solid_dmft can read it while VASP holds it open (CSC)
+LSYNCH5 = .TRUE.

@@ -13,13 +13,16 @@ ISMEAR = -5 ! -4 (-5) Tetrahedron (with Bloechl), 0 Gaussian, 1,... Methfessel-P
 SIGMA = 0.01
 
 LMAXMIX = 4
-LOCPROJ = 1 : s : Pr
 
 !! write WAVECAR, CHGCAR
 LWAVE = .FALSE.
 LCHARG = .FALSE.
 
+! sync vaspout.h5 so solid_dmft can read it while VASP holds it open (CSC)
+LSYNCH5 = .TRUE.
+
 LWANNIER90 = .TRUE.
+LWRITE_MMN_AMN = .TRUE.
 NUM_WANN = 3
 WANNIER90_WIN = "
 guiding_centres = T
@@ -28,13 +31,16 @@ begin projections
 V:dxy,dyz,dxz
 end projections
 
+exclude_bands = 1-16, 22-32
 dis_win_min = 4.1
 dis_win_max = 6.9
 
 write_hr = true
 write_u_matrices = true
+write_xyz = true
+translate_home_cell = false
 
-num_iter = 0
+num_iter = 1000
 conv_tol = 1E-9
 conv_window = 10
 

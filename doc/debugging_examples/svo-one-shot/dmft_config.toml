@@ -1,0 +1,32 @@
+[general]
+seedname = "svo"
+jobname = "svo_u8_j65_fix"
+
+n_iter_dmft = 2
+
+block_threshold = 0.001
+enforce_off_diag = true
+
+h_int_type = "kanamori"
+h_int_basis = "vasp"
+U = 8.0
+J = 0.65
+beta = 40
+prec_mu = 0.001
+
+dc_type = 1
+dc = true
+dc_dmft = false
+calc_energies = false
+
+[solver]
+type = "cthyb"
+n_l = 35
+length_cycle = 150
+n_warmup_cycles = 10000
+n_cycles_tot = 1e+7
+imag_threshold = 1e-5
+measure_G_l = false
+off_diag_threshold = 1e-6
+legendre_fit = true
+measure_density_matrix = true
