@@ -53,4 +53,3 @@ If you are using this code for your research, please cite it with this
 </picture>
 
 TRIQS/solid_dmft is supported by the Flatiron Institute, a division of the Simons Foundation.
-

@@ -29,7 +29,9 @@ set(basic_tests
   get_filename_component(test_name ${test} NAME_WE)
   get_filename_component(test_dir ${test} DIRECTORY)
   add_test(NAME ${test_name} COMMAND ${TRIQS_PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${test_dir}/${test_name}.py WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${test_dir})
-  set_property(TEST ${test_name} APPEND PROPERTY ENVIRONMENT PYTHONPATH=${PROJECT_BINARY_DIR}/python:$ENV{PYTHONPATH})
+  set_property(TEST ${test_name} APPEND PROPERTY ENVIRONMENT_MODIFICATION
+    "PYTHONPATH=path_list_prepend:${PROJECT_BINARY_DIR}/python")
+  set_property(TEST ${test_name} APPEND PROPERTY ENVIRONMENT ${SANITIZER_RT_PRELOAD})
 endforeach()
 
 # ------------------------------#
