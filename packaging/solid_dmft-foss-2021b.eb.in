@@ -15,7 +15,7 @@ toolchain = {'name': 'foss', 'version': '2021b'}
 toolchainopts = {'pic': True, 'usempi': True}
 
 source_urls = ['https://github.com/TRIQS/solid_dmft/releases/download/%(version)s/']
-sources = ['app4triqs-%(version)s.tar.gz']
+sources = ['solid_dmft-%(version)s.tar.gz']
 checksums = ['PUT HERE THE SHA256 OF THE RELEASE TARBALL']
 
 dependencies = [
