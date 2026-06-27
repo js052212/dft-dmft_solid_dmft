@@ -5,7 +5,12 @@ def documentationPlatform = "ubuntu-clang"
 /* depend on triqs upstream branch/project */
 def triqsBranch = env.BRANCH_NAME == "jenkins" ? "jenkins" : "unstable"
 def triqsProject = '/CCQ/TRIQS/triqs/' + triqsBranch.replaceAll('/', '%2F')
-def cthybProject = '/CCQ/TRIQS/cthyb/' + triqsBranch.replaceAll('/', '%2F')
+/* Upstream TRIQS apps that solid_dmft imports at runtime. As a python-only app
+   we only need them importable, so rather than rebuilding them from source we
+   consume their kept installs on /mnt/triqs (see PYTHONPATH below). */
+def appNames = ["cthyb", "dft_tools", "dftkit", "hubbardI", "hartree_fock", "maxent"]
+def appProjects = appNames.collectEntries { [(it): '/CCQ/TRIQS/' + it + '/' + triqsBranch.replaceAll('/', '%2F')] }
+def cthybProject = appProjects["cthyb"]
 /* whether to keep and publish the results */
 def keepInstall = false // disabled on jenkins-new: !env.BRANCH_NAME.startsWith("PR-")
 
@@ -36,7 +41,11 @@ def runBuild = { String platform, String prefix, List<String> envs ->
   def python3 = macos ? "${env.BREW}/bin/python3" : "python3"
   def pythonVer = sh(returnStdout: true, script: """$python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")'""").trim()
   def triqsPy = "$triqsDir/lib/python$pythonVer"
-  envs << "PYTHONPATH=$triqsPy/dist-packages:$triqsPy/site-packages"
+  /* triqs plus the kept installs of the upstream apps, each in its own prefix.
+     Their python extensions resolve their C++ libs (and triqs) via RPATH, which
+     works because these installs live at fixed, predictable paths. */
+  def pyRoots = [triqsPy] + appProjects.values().collect { "$prefix/install$it/$platform/lib/python$pythonVer" }
+  envs << "PYTHONPATH=" + pyRoots.collectMany { ["$it/dist-packages", "$it/site-packages"] }.join(':')
   if (macos) {
     dir(installDir) {
       deleteDir()
