@@ -111,6 +111,14 @@ RUN cd /source && git clone -b unstable --depth 1 https://github.com/TRIQS/triqs
          -DCMAKE_CXX_COMPILER=$CXX \
     && make -j$NCORES && ctest -j$NCORES && make install
 
+# dftkit (required by dft_tools)
+RUN cd /source && git clone -b unstable --depth 1 https://github.com/TRIQS/dftkit.git \
+    && cd dftkit && mkdir -p build && cd build \
+    && cmake ../ \
+         -DCMAKE_C_COMPILER=$CC \
+         -DCMAKE_CXX_COMPILER=$CXX \
+    && make -j$NCORES && ctest -j$NCORES && make install
+
 # dft_tools
 RUN cd /source && git clone -b unstable --depth 1 https://github.com/TRIQS/dft_tools.git \
     && cd dft_tools && mkdir -p build && cd build \
