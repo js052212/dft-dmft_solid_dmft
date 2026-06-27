@@ -1,7 +1,7 @@
 # Fail early if a doc dependency is missing (import names, not distribution names)
 find_package(Python COMPONENTS Interpreter REQUIRED)
 
-foreach(_module numpydoc nbsphinx myst_parser linkify_it sphinx_rtd_theme matplotlib)
+foreach(_module numpydoc nbsphinx myst_parser linkify_it sphinx_rtd_theme matplotlib sphinx_autorun)
   execute_process(
     COMMAND ${Python_EXECUTABLE} -c "import ${_module}"
     RESULT_VARIABLE _rc OUTPUT_QUIET ERROR_QUIET)
