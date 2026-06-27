@@ -57,7 +57,7 @@ Legend:
 .. admonition:: Delta_time_{iimp}: 
   :class: intag
  
-            **type=** triqs.gf.block_gf.BlockGf
+            **type=** triqs.gfs.block_gf.BlockGf
 
 
             Imaginary time hybridization function.
@@ -65,7 +65,7 @@ Legend:
 .. admonition:: G0_freq_{iimp}: 
   :class: intag
  
-            **type=** triqs.gf.block_gf.BlockGf
+            **type=** triqs.gfs.block_gf.BlockGf
 
 
             Imaginary frequency Weiss field.
@@ -73,7 +73,7 @@ Legend:
 .. admonition:: G0_time_orig_{iimp}: 
   :class: intag
  
-            **type=** triqs.gf.block_gf.BlockGf
+            **type=** triqs.gfs.block_gf.BlockGf
 
 
             ??
@@ -81,7 +81,7 @@ Legend:
 .. admonition:: G_imp_freq_{iimp}: 
   :class: intag
  
-            **type=** triqs.gf.block_gf.BlockGf
+            **type=** triqs.gfs.block_gf.BlockGf
 
 
             Imaginary frequency impurity green function.
@@ -89,7 +89,7 @@ Legend:
 .. admonition:: G_imp_l_{iimp}: 
   :class: intag
  
-            **type=** triqs.gf.block_gf.BlockGf
+            **type=** triqs.gfs.block_gf.BlockGf
 
 
             Legendre representation of the impurity green function.
@@ -97,7 +97,7 @@ Legend:
 .. admonition:: G_imp_time_{iimp}: 
   :class: intag
  
-            **type=** triqs.gf.block_gf.BlockGf
+            **type=** triqs.gfs.block_gf.BlockGf
 
 
             Imaginary time representation of the impurity green function.
@@ -105,7 +105,7 @@ Legend:
 .. admonition:: Sigma_freq_{iimp}: 
   :class: intag
  
-            **type=** triqs.gf.block_gf.BlockGf
+            **type=** triqs.gfs.block_gf.BlockGf
 
 
             Imaginary frequency self-energy obtained from the Dyson equation.

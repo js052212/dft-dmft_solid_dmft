@@ -109,7 +109,7 @@ solid_dmft 3.3.0 is a major release, compatible with TRIQS 3.3, updated to the l
 * docker images are automatically build on each push for all major releases to ghcr.io
 * switch from old ctseg to new ctseg_j solver
 * allow CRM Dyson solver for both cthyb and ctseg to obtain Sigma_imp
-  from G_tau:   "crm_dyson_solver=true" and dlr_wmax and dlr_eps (see https://triqs.github.io/triqs/unstable/documentation/python_api/triqs.gf.dlr_crm_dyson_solver.html#module-triqs.gf.dlr_crm_dyson_solver for details)
+  from G_tau:   "crm_dyson_solver=true" and dlr_wmax and dlr_eps (see https://triqs.github.io/triqs/unstable/documentation/python_api/triqs.gfs.dlr_crm_dyson_solver.html#module-triqs.gfs.dlr_crm_dyson_solver for details)
 * add new DC schemes 'crpa_static', 'crpa_static_qp', 'crpa_dynamic'
 * use cRPA calculated Uijkl as interaction via 'crpa',
   'crpa_density_density', 'dyn_density_density', 'dyn_full' hint types

@@ -47,9 +47,9 @@ dc_type : int or list of int, default = None
         * crpa_static_qp
         * crpa_dynamic
 dlr_eps : float, default = None
-        precision for DLR basis set if needed, see also triqs.gf.meshes.MeshDLR
+        precision for DLR basis set if needed, see also triqs.mesh.MeshDLR
 dlr_wmax : float, default = None
-        spectral width (one-side) for DLR basis set if needed, see also triqs.gf.meshes.MeshDLR
+        spectral width (one-side) for DLR basis set if needed, see also triqs.mesh.MeshDLR
 enforce_off_diag : bool or list of bool, default = True
         only if False, the block structure can be reduced to ignore off-diagonal elements
         if they are below the general.block_threshold of the block structure finder
