@@ -11,7 +11,7 @@ jobs:
     name: Build distribution 📦
     runs-on: ubuntu-latest
     container:   # we have to provide a working triqs installation to make the cmake step work
-      image: ghcr.io/triqs/solid_dmft_github_ci:3.3.x
+      image: ghcr.io/triqs/solid_dmft_github_ci:4.0.x
 
     steps:
     - uses: actions/checkout@v7
