@@ -23,12 +23,12 @@ endif()
 # Sphinx has internal caching, always run it
 add_custom_target(${PROJECT_NAME}_docs_sphinx ALL)
 add_custom_command(
-  TARGET ${PROJECT_NAME}_docs_sphinx
+  TARGET ${PROJECT_NAME}_docs_sphinx POST_BUILD
   COMMAND bash generate_doc_from_comments.sh
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/input_output/DMFT_input
 )
 add_custom_command(
-  TARGET ${PROJECT_NAME}_docs_sphinx
+  TARGET ${PROJECT_NAME}_docs_sphinx POST_BUILD
   COMMAND PYTHONPATH=${PROJECT_BINARY_DIR}/python:${PROJECT_BINARY_DIR}/python/solid_dmft:$ENV{PYTHONPATH} ${SPHINXBUILD_EXECUTABLE} -c . -b html ${CMAKE_CURRENT_SOURCE_DIR} html
 )
 
