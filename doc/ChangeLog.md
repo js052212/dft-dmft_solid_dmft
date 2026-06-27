@@ -1,5 +1,31 @@
 # Changelog
 
+## Version 4.0.0
+
+solid_dmft version 4.0.0 is a major release, compatible with TRIQS 4.0, and updated to the latest app4triqs skeleton. This release ports solid_dmft to the TRIQS 4.0 API and adds support for new HPC platforms, alongside several bug fixes.
+
+We thank all contributors: Jennifer Coulter, Thomas Hahn, Alexander Hampel, Henri Menke, Anthony Ramirez, Dylan Simon, Nils Wentzell, and Alberto Carta
+
+Find below an itemized list of changes in this release.
+
+### General
+* port to the TRIQS 4.0 API: run the `port_to_triqs4` script and replace `triqs.gf` imports with `triqs.gfs`
+* use the modern mesh constructor keyword arguments (`statistic`, `n_iw`, `n_tau`)
+* add SLURM support for the OLCF CADES Baseline cluster (walltime, hostfile path, and hostname configuration)
+
+### fix
+* fix a startup failure when correlated shells of different size were not unique (e.g. two equivalent Ni 3d and two equivalent O 2p shells)
+* adapt to the updated TRIQS Hartree-Fock solver interface
+
+### build
+* build `triqs_dftkit` before `dft_tools` in the CI docker images and adapt the Dockerfiles for `dftkit` compatibility
+* bump GCC to 14 and LLVM to 20 for TRIQS unstable compatibility
+* skip TPRF in the openmpi docker image until it is stabilized for 4.0.0
+* fix the source tarball name in the foss EasyBuild file
+* bump the publish-to-pypi CI image tag to 4.0.x
+* install `sphinx_autorun` for the Jenkins doc build
+* bump actions/checkout from 6 to 7
+
 ## Version 3.3.5
 
 solid_dmft version 3.3.5 is a minor patch release that fixes several bugs and adds small features:
