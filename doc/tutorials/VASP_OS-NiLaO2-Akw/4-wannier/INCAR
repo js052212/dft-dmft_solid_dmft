@@ -1,0 +1,64 @@
+SYSTEM = LaNiO2 Wannier Ni-d + La-d
+
+ISTART = 1
+ICHARG = 11
+
+ENCUT = 600
+PREC = Accurate
+EDIFF = 1E-8
+NELM = 80
+ALGO = Normal
+
+ISPIN = 1
+ISMEAR = 0
+SIGMA = 0.05
+ISYM = -1
+LMAXMIX = 6
+
+NBANDS = 40
+
+LCHARG = .FALSE.
+LWAVE  = .FALSE.
+
+KPAR = 1
+NCORE = 8
+
+NUM_WANN = 10
+LWANNIER90 = .TRUE.
+LWANNIER90_RUN = .FALSE.
+LWRITE_MMN_AMN = .TRUE.
+
+WANNIER90_WIN = "
+num_wann = 10
+
+dis_win_min = 1.3839
+dis_win_max = 13.3839
+
+dis_froz_min = 8.3839
+dis_froz_max = 10.3839
+
+dis_num_iter = 500
+num_iter = 500
+conv_tol = 1.0d-10
+
+begin projections
+f=0.0,0.0,0.0:dxy,dyz,dz2,dxz,dx2-y2
+f=0.5,0.5,0.5:dxy,dyz,dz2,dxz,dx2-y2
+end projections
+
+guiding_centres = true
+write_hr = true
+
+bands_plot = true
+bands_num_points = 100
+
+begin kpoint_path
+G 0.0 0.0 0.0 X 0.5 0.0 0.0
+X 0.5 0.0 0.0 M 0.5 0.5 0.0
+M 0.5 0.5 0.0 G 0.0 0.0 0.0
+G 0.0 0.0 0.0 Z 0.0 0.0 0.5
+Z 0.0 0.0 0.5 R 0.5 0.0 0.5
+R 0.5 0.0 0.5 A 0.5 0.5 0.5
+A 0.5 0.5 0.5 Z 0.0 0.0 0.5
+end kpoint_path
+"
