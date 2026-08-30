@@ -1,0 +1,39 @@
+#!/bin/bash
+# 用法: dmft_convert plo.cfg
+# 它会从 plo.cfg 提取 BASENAME，然后自动生成投影并创建 .h5 文件
+
+CFG="$1"
+
+if [ ! -f "$CFG" ]; then
+    echo "错误: 找不到配置文件 $CFG"
+    exit 1
+fi
+
+# 从 plo.cfg 中提取 BASENAME（只取第一个匹配的，去掉空格）
+BASENAME=$(grep -iE '^\s*BASENAME\s*=' "$CFG" | head -1 | cut -d'=' -f2- | xargs)
+
+if [ -z "$BASENAME" ]; then
+    echo "错误: 在 $CFG 中没有找到 BASENAME"
+    exit 1
+fi
+
+echo "📂 读取配置: $CFG"
+echo "📦 输出前缀: $BASENAME"
+echo "⚙️  运行 PLO 投影 + VaspConverter..."
+
+# 核心步骤：直接调用 Python（使用 heredoc 避免引号转义问题）
+python3 << EOF
+from triqs_dft_tools.converters.plovasp.converter import generate_and_output_as_text
+from triqs_dft_tools.converters.vasp import VaspConverter
+
+generate_and_output_as_text("${CFG}", vasp_dir="./")
+VaspConverter("${BASENAME}").convert_dft_input()
+EOF
+
+if [ -f "${BASENAME}.h5" ]; then
+    echo "✅ 成功生成 ${BASENAME}.h5"
+    ls -lh "${BASENAME}.h5"
+else
+    echo "❌ 生成失败，请检查上方错误信息"
+    exit 1
+fi

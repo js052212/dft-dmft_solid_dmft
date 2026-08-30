@@ -1,0 +1,48 @@
+[general]
+seedname = "vasp"
+jobname = "vasp"
+
+#load_sigma = true
+#path_to_sigma = "vasp/vasp.h5"
+
+enforce_off_diag = false
+block_threshold = 0.001
+
+n_iw = 2001
+n_tau = 20001
+
+prec_mu = 0.01
+mu_initial_guess = 9.3839
+mu_mix_const = 0.5
+mu_mix_per_occupation_offset = 0.0
+calc_mu_method = "dichotomy"
+
+
+h_int_type = "density_density"
+U = 5
+J = 0.8
+
+# temperature ~290 K
+beta = 40
+magnetic = false
+#magmom = [-0.3, 0.3]
+#afm_order = true
+
+n_iter_dmft = 16
+g0_mix = 0.3
+dc_type = 0
+dc = true
+dc_dmft = true
+
+[solver]
+type = "cthyb"
+length_cycle = 1000
+n_warmup_cycles = 5e+4
+n_cycles_tot = 1e+6
+imag_threshold = 5e-4
+perform_tail_fit = true
+n_l = 40 
+fit_max_moment = 6
+fit_min_w = 10
+fit_max_w = 16
+measure_density_matrix = true
