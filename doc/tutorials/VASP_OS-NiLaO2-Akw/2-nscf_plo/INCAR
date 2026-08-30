@@ -1,0 +1,25 @@
+SYSTEM = LaNiO2 DFT SCF
+ISTART = 1
+ICHARG = 11
+ENCUT = 600
+PREC = Accurate
+EDIFF = 1E-8
+NELM = 80
+ISPIN = 1
+# smearing
+ISMEAR = 0
+SIGMA = 0.05
+# magnetism
+#MAGMOM = 1*0.0 1*1.0 2*0.0
+# DOS / projection
+LORBIT = 14
+LMAXMIX = 6
+LOCPROJ = 2 : d : Pr 1
+# charge
+LCHARG = .FALSE.
+LWAVE  = .FALSE.
+# symmetry
+ISYM = -1
+# parallel
+NCORE = 8
+
