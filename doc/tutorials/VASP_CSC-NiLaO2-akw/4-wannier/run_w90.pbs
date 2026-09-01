@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -N LNO-w90-min
+#PBS -q normal
+#PBS -o w90.out
+#PBS -e w90.err
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=100:00:00
+
+cd $PBS_O_WORKDIR
+export HDF5_USE_FILE_LOCKING=FALSE
+export OMP_NUM_THREADS=1
+
+source /home/jsguo/miniconda3_new/bin/activate triqs_unstable
+export LD_LIBRARY_PATH=/home/jsguo/.conda/envs/lib:$LD_LIBRARY_PATH
+/home/jsguo/.conda/envs/bin/wannier90.x wannier90
+
+echo "=== wannier90.x done ==="
+tail -5 wannier90.wout

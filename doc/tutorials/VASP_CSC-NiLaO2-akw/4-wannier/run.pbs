@@ -1,0 +1,19 @@
+#!/bin/bash
+#PBS -N LNO-w90-export
+#PBS -q normal
+#PBS -o jsguo.out
+#PBS -e jsguo.err
+#PBS -l nodes=1:ppn=32
+#PBS -l walltime=400:00:00
+
+cd $PBS_O_WORKDIR
+export HDF5_USE_FILE_LOCKING=FALSE
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+
+source /home/jsguo/miniconda3_new/bin/activate vasp_build
+mpirun -np 32 /home/jsguo/bin/vasp.6.5.0/bin/vasp_std_wannier > jsguo_vasp.out 2>&1
+
+echo "=== VASP Wannier export done ==="
+ls -lh wannier90.win wannier90.mmn wannier90.amn wannier90.eig 2>/dev/null
