@@ -1,0 +1,46 @@
+[general]
+seedname = "vasp"
+set_rot = "hloc"
+csc = true
+
+h_int_type = "density_density"
+U = 5.0
+J = 0.8
+beta = 40
+
+prec_mu = 0.001
+mu_initial_guess = 9.4079
+mu_mix_const = 0.2
+mu_update_freq = 4
+
+g0_mix = 0.3
+n_iter_dmft_first = 6
+n_iter_dmft_per = 2
+n_iter_dmft = 5
+h5_save_freq = 2
+
+dc = true
+dc_type = 0
+dc_dmft = true
+
+[solver]
+type = "cthyb"
+n_l = 40
+legendre_fit = true
+fit_max_moment = 6
+length_cycle = 200
+n_warmup_cycles = 1e4
+n_cycles_tot = 1e6
+imag_threshold = 0.05
+measure_density_matrix = true
+measure_pert_order = true
+
+[dft]
+n_iter = 4
+n_cores = 32
+dft_code = "vasp"
+dft_exec = "/home/jsguo/bin/vasp.6.5.0/bin/vasp_std"
+mpi_env = "default"
+plo_cfg = "plo.cfg"
+projector_type = "plo"
+store_eigenvals = false
