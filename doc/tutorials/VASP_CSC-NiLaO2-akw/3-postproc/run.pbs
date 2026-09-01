@@ -1,0 +1,24 @@
+#!/bin/bash
+#PBS -N LNO-postproc
+#PBS -q normal
+#PBS -o jsguo.out
+#PBS -e jsguo.err
+#PBS -l nodes=1:ppn=4
+#PBS -l walltime=200:00:00
+
+cd $PBS_O_WORKDIR
+export HDF5_USE_FILE_LOCKING=FALSE
+echo "Hostname: $(hostname)"
+echo "Total cores: $(nproc)"
+
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+source /home/jsguo/miniconda3_new/bin/activate triqs_unstable
+
+# 链接 csc 的 DMFT 结果（vasp.h5）进后处理目录
+if [ ! -f vasp.h5 ]; then
+    cp ../2-dmft-csc/vasp.h5 vasp.h5
+fi
+
+mpirun -np 4 python3 1-sigma_postprocess.py 2>&1 | tee postproc.log
